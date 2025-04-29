@@ -1,26 +1,14 @@
-<div id="pieces-health" style="font-family:sans-serif; padding:1em; margin:1em 0;">
-  Checking PiecesOS…
-</div>
-
-<!-- this bogus img will always error, firing our code -->
-<img src="x" style="display:none"
-  onerror="(function(){
-    var s=document.getElementById('pieces-health');
-    if(!s) return;
-    async function check(){
-      try {
-        let r=await fetch('http://localhost:39300/.well-known/health',{cache:'no-store'});
-        if(!r.ok) throw 'bad';
-        let t=await r.text();
-        if(t.startsWith('ok:')){
-          s.textContent='✅ Running (id '+t.slice(3)+')';
-          s.style.color='green';
-        } else throw t;
-      } catch(_){
-        s.textContent='❌ Not detected';
-        s.style.color='red';
-      }
-    }
-    check();
-    setInterval(check,30000);
-  })();">
+<p class="codepen"
+   data-height="300"
+   data-theme-id="light"
+   data-default-tab="result"
+   data-user="nolan-at-pieces"
+   data-slug-hash="pvvdeGb"
+   data-show-tab-bar="no"
+   data-border="none"
+   style="height:300px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; margin:1em 0;">
+  See the Pen <a href="https://codepen.io/nolan-at-pieces/pen/pvvdeGb">
+  PiecesOS Health Check</a> by Nolan Taft (<a href="https://codepen.io/nolan-at-pieces">@nolan-at-pieces</a>)
+  on <a href="https://codepen.io">CodePen</a>.
+</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
