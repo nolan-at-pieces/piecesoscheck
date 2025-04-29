@@ -2,30 +2,25 @@
   Checking PiecesOS…
 </div>
 
-<script>
-  (function() {
-    const statusEl = document.getElementById('pieces-health');
-    if (!statusEl) return;
-
-    async function checkPieces() {
+<!-- this bogus img will always error, firing our code -->
+<img src="x" style="display:none"
+  onerror="(function(){
+    var s=document.getElementById('pieces-health');
+    if(!s) return;
+    async function check(){
       try {
-        const res = await fetch('http://localhost:39300/.well-known/health', { cache: 'no-store' });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const text = await res.text();
-        if (text.startsWith('ok:')) {
-          statusEl.textContent = `✅ Running (id ${text.slice(3)})`;
-          statusEl.style.color = 'green';
-        } else {
-          throw new Error(text);
-        }
-      } catch {
-        statusEl.textContent = '❌ Not detected';
-        statusEl.style.color = 'red';
+        let r=await fetch('http://localhost:39300/.well-known/health',{cache:'no-store'});
+        if(!r.ok) throw 'bad';
+        let t=await r.text();
+        if(t.startsWith('ok:')){
+          s.textContent='✅ Running (id '+t.slice(3)+')';
+          s.style.color='green';
+        } else throw t;
+      } catch(_){
+        s.textContent='❌ Not detected';
+        s.style.color='red';
       }
     }
-
-    // Initial check + poll every 30s
-    checkPieces();
-    setInterval(checkPieces, 30000);
-  })();
-</script>
+    check();
+    setInterval(check,30000);
+  })();">
