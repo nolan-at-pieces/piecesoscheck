@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PiecesOS Health Check</title>
+  <style>
+    body { font-family: sans-serif; padding: 1em; }
+    #pieces-health { margin: 1em 0; }
+  </style>
+</head>
+<body>
+  <h1>PiecesOS Status</h1>
+  <div id="pieces-health">Checking PiecesOS…</div>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const statusEl = document.getElementById('pieces-health');
+    async function checkPieces() {
+      try {
+        const res = await fetch('http://localhost:39300/.well-known/health', { cache: 'no-store' });
+        const text = await res.text();
+        if (text.startsWith('ok:')) {
+          statusEl.textContent = `✅ Running (id ${text.slice(3)})`;
+          statusEl.style.color = 'green';
+        } else {
+          throw new Error(text);
+        }
+      } catch {
+        statusEl.textContent = '❌ Not detected';
+        statusEl.style.color = 'red';
+      }
+    }
+    checkPieces();
+    setInterval(checkPieces, 30000);
+  });
+  </script>
+</body>
+</html>
