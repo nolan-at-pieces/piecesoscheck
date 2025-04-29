@@ -1,24 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PiecesOS Health Check</title>
-  <style>
-    body { font-family: sans-serif; padding: 1em; }
-    #pieces-health { margin: 1em 0; }
-  </style>
-</head>
-<body>
-  <h1>PiecesOS Status</h1>
-  <div id="pieces-health">Checking PiecesOS…</div>
+<div id="pieces-health" style="font-family:sans-serif; padding:1em; margin:1em 0;">
+  Checking PiecesOS…
+</div>
 
-  <script>
-  document.addEventListener('DOMContentLoaded', () => {
+<script>
+  (function() {
     const statusEl = document.getElementById('pieces-health');
+    if (!statusEl) return;
+
     async function checkPieces() {
       try {
         const res = await fetch('http://localhost:39300/.well-known/health', { cache: 'no-store' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const text = await res.text();
         if (text.startsWith('ok:')) {
           statusEl.textContent = `✅ Running (id ${text.slice(3)})`;
@@ -31,9 +23,9 @@
         statusEl.style.color = 'red';
       }
     }
+
+    // Initial check + poll every 30s
     checkPieces();
     setInterval(checkPieces, 30000);
-  });
-  </script>
-</body>
-</html>
+  })();
+</script>
