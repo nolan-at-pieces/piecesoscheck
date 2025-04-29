@@ -1,0 +1,23 @@
+/* 1. Target the outer <p class="codepen"> wrapper */
+.codepen {
+  max-width: 600px;              /* limit total width if you want */
+  margin: 1em auto;              /* center it with some breathing room */
+}
+
+/* 2. Resize the embedded iframe */
+.codepen iframe {
+  width: 100% !important;        /* full width of its container */
+  height: 200px !important;      /* whatever “small” run window you need */
+  border: none !important;       /* drop the CodePen border */
+  box-shadow: none !important;   /* drop any shadow around it */
+}
+
+/* 3. Hide the footer (“Resources / Zoom / Rerun”) */
+footer.embed-footer {
+  display: none !important;
+}
+
+/* 4. Hide the nav tabs (“HTML / CSS / JS / Result”) */
+nav.embed-nav.group {
+  display: none !important;
+}
